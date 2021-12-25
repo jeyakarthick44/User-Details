@@ -1,8 +1,8 @@
 import react, { useState, useEffect } from 'react';
-import { Table, TableHead, TableCell, Paper, TableRow, TableBody, Button, makeStyles } from '@material-ui/core'
+import { Table, TableHead, TableCell, Paper, TableRow, TableBody, Button, makeStyles, TableContainer } from '@material-ui/core'
 import { getUsers, deleteUser } from './api';
 import { Link } from 'react-router-dom';
-
+ 
 const useStyles = makeStyles({
     table: {
         width: '90%',
@@ -27,6 +27,7 @@ const AllUsers = () => {
     const [users, setUsers] = useState([]);
     const classes = useStyles();
 
+
     useEffect(() => {
         getAllUsers();
     }, []);
@@ -41,38 +42,44 @@ const AllUsers = () => {
         setUsers(response.data);
     }
 
+
     return (
-        <Table className={classes.table}>
-            <TableHead>
-                <TableRow className={classes.thead}>
-                    <TableCell>Id</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Mobile</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Username</TableCell>
-                    <TableCell>Password</TableCell>
-                    <TableCell>city</TableCell>
-                    <TableCell></TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {users.map((user) => (
-                    <TableRow className={classes.row} key={user.id}>
-                        <TableCell>{user._id}</TableCell> {/* change it to user.id to use JSON Server */}
-                        <TableCell>{user.name}</TableCell>
-                        <TableCell>{user.mobile}</TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.username}</TableCell>
-                        <TableCell>{user.password}</TableCell>
-                        <TableCell>{user.city}</TableCell>
-                        <TableCell>
-                            <Button color="primary" variant="contained" style={{marginRight:10}} component={Link} to={`/edit/${user._id}`}>Edit</Button> {/* change it to user.id to use JSON Server */}
-                            <Button color="secondary" variant="contained" onClick={() => deleteUserData(user._id)}>Delete</Button> {/* change it to user.id to use JSON Server */}
-                        </TableCell>
+        <div>
+            <Link to="/add" style={{ textDecoration: "none" }}>
+                <Button style={{ fontSize: "25px", marginLeft: "45%", marginTop: "5%", backgroundColor: "blue", color: "whiteSmoke" }} variant="contained">Add User</Button>
+            </Link>
+            <Table className={classes.table}>
+                <TableHead>
+                    <TableRow className={classes.thead}>
+                        <TableCell>Id</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Mobile</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Username</TableCell>
+                        <TableCell>Password</TableCell>
+                        <TableCell>City</TableCell>
+                        <TableCell></TableCell>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHead>
+                <TableBody>
+                    {users.map((user,index) => (
+                        <TableRow className={classes.row} key={user.id}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{user.name}</TableCell>
+                            <TableCell>{user.mobile}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.username}</TableCell>
+                            <TableCell>{user.password}</TableCell>
+                            <TableCell>{user.city}</TableCell>
+                            <TableCell>
+                                <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`/edit/${user._id}`}>Edit</Button>
+                                <Button color="secondary" variant="contained" onClick={() => deleteUserData(user._id)}>Delete</Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     )
 }
 

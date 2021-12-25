@@ -1,41 +1,21 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
+import autoIncrement from 'mongoose-auto-increment';
+
+const userSchema = mongoose.Schema({
+    name: String,
+    mobile: Number,
+    email: String,
+    username: String,
+    password: Number,
+    city: String
+
+})
 
 
-const userSchema = mongoose.Schema(
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-      mobile: { 
-        type: Number,
-        required: true,
-        unique: true,
-      },
-      email: {
-        type: String,
-        required: true,
-        unique: true,
-      },
-      userName: {
-        type: String,
-        required: true,
-      },
-      password: {
-        type: String,
-        required: true,
-      },
-      city: {
-        type: String,
-        required: true,
-      },
-    },
-    {
-      timestamps : true,
-    }
-  );
 
+autoIncrement.initialize(mongoose.connection);
+userSchema.plugin(autoIncrement.plugin, 'user');
 
-  
-  const User = mongoose.model('User',userSchema);
-  module.exports = User
+const postUser = mongoose.model('user', userSchema);
+
+export default postUser;

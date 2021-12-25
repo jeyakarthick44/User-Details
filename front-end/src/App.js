@@ -1,22 +1,19 @@
-import './App.css';
-import Home from './Home';
-import { BrowserRouter as Router, Route,Routes} from "react-router-dom";
+import AllUsers from './AllUsers';
 import AddUser from './AddUser';
-import Navbar from './Navbar';
-import Edit from './Edit'
+import EditUser from './EditUser';
+import NavBar from './NavBar';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
-      <Router>
-        <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} exact />
-        <Route path="/adduser" element={<AddUser />} />
-        <Route path="/updateuser" element={<Edit />} />
-        </Routes>
-        </Router>
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <Switch>
+        <Route exact path="/all" component={AllUsers} />
+        <Route exact path="/add" component={AddUser} />
+        <Route exact path="/edit/:id" component={EditUser} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

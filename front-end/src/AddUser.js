@@ -1,124 +1,76 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import { useEffect,useState } from 'react';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, Typography } from '@material-ui/core';
+import { addUser } from './api';
+import { Link, useHistory } from 'react-router-dom';
 
-
-const initialState = {
-  name:"",
-  email:"",
+const initialValue = {
+    name: '',
+    mobile: '',
+    email: '',
+    username: '',
+    password:'',
+    city:''
 }
-const theme = createTheme();
 
-export default function AddUser() {
+const useStyles = makeStyles({
+    container: {
+        width: '50%',
+        margin: '5% 0 0 25%',
+        '& > *': {
+            marginTop: 20
+        }
+    }
+})
+
+const AddUser = () => {
+    const [user, setUser] = useState(initialValue);
+    const {  name, mobile, email, username, password, city} = user;
+    const classes = useStyles();
+    let history = useHistory();
+
+    const onValueChange = (e) => {
+        console.log(e.target.value);
+        setUser({...user, [e.target.name]: e.target.value})
+    }
+
+    const addUserDetails = async() => {
+        await addUser(user);
+        history.push('./all');
+    }
 
 
-const [state, setstate] = useState(initialState)
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box 
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            ADD USER
-          </Typography>
-          <Box component="form" style={{width:500}} onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="name"
-              label="Name"
-              name="name"
-              autoComplete="name"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="mobile"
-              label="Mobile"
-              name="mobile"
-              autoComplete="mobile"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="username"
-              name="Username"
-              autoComplete="username"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="city"
-              label="City"
-              type="city"
-              id="city"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              size="small"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Add
-            </Button>
-            <Grid container>
-              <Grid item>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
-  );
+    return (
+        <FormGroup className={classes.container}>
+            <Typography variant="h4">Add User</Typography>
+            <FormControl>
+                <InputLabel htmlFor="my-input">Name</InputLabel>
+                <Input onChange={(e) => onValueChange(e)} name='name' value={name} id="my-input" />
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="my-input">Mobile</InputLabel>
+                <Input onChange={(e) => onValueChange(e)} name='mobile' value={mobile} id="my-input" />
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="my-input">Email</InputLabel>
+                <Input onChange={(e) => onValueChange(e)} name='email' value={email} id="my-input"/>
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="my-input">Username</InputLabel>
+                <Input onChange={(e) => onValueChange(e)} name='username' value={username} id="my-input" />
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="my-input">Password</InputLabel>
+                <Input onChange={(e) => onValueChange(e)} name='password' value={password} id="my-input" />
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="my-input">City</InputLabel>
+                <Input onChange={(e) => onValueChange(e)} name='city' value={city} id="my-input" />
+            </FormControl>
+            <FormControl>
+                <Button variant="contained" color="primary" onClick={() => addUserDetails()}>Add User</Button>
+            </FormControl>
+        </FormGroup>
+    )
 }
+
+export default AddUser;
