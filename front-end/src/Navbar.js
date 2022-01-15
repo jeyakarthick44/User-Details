@@ -29,7 +29,7 @@ const NavBar = () => {
         >
           Home
         </NavLink>
-        <NavLink className={classes.tabs} to="all" exact>
+        <NavLink className={classes.tabs} to="" exact>
           All Users
         </NavLink>
         <NavLink className={classes.tabs} to="add" exact>

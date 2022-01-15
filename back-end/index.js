@@ -12,8 +12,6 @@ app.use(cors());
 
 app.use("/users", Routes);
 
-
-
 const URL =
   "mongodb+srv://jeyakarthick:kar12345@black.uy6ff.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || "5000";

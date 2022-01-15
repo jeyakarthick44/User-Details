@@ -43,7 +43,7 @@ const AddUser = () => {
 
   const addUserDetails = async () => {
     await addUser(user);
-    history.push("./all");
+    history.push("./");
   };
 
   return (
